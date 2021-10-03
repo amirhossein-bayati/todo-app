@@ -3,10 +3,18 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import *
+from .models import Task
+
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+
+class TaskList(ListView):
+    model = Task
+    template_name = 'account/home-page.html'
 
 
-def homePage(request):
-    return render(request, 'account/home-page.html')
+class TaskDetail(DetailView):
+    model = Task
 
 def register(request):
     form = RegisterForm()
