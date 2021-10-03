@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import *
 from .models import Task
 
+
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, CreateView
 
 class TaskList(ListView):
     model = Task
@@ -17,6 +20,15 @@ class TaskDetail(DetailView):
     model = Task
     template_name = 'account/task-detail.html'
     context_object_name = 'task'
+
+
+class TaskCreate(CreateView):
+    model = Task
+    fields = "__all__"
+    template_name = 'account/task-create.html'
+    success_url = reverse_lazy('account:tasks')
+
+
 
 def register(request):
     form = RegisterForm()

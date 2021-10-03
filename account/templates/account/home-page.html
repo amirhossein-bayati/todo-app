@@ -157,7 +157,7 @@
 
     -->
 
-
+    <a href="{% url 'account:task-create' %}">Create</a><br><br>
     {% for task in object_list %}
 
         <a href="{% url 'account:task-detail' task.id %}">
