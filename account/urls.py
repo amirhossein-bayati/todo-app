@@ -6,5 +6,6 @@ app_name = "account"
 urlpatterns = [
     path('', homePage, name='home'),
     path('register/', register, name='register'),
+    path('login/', loginPage, name="login")
 
 ]
