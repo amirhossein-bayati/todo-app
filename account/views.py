@@ -29,6 +29,11 @@ class TaskCreate(CreateView):
     success_url = reverse_lazy('account:tasks')
 
 
+class TaskUpdate(UpdateView):
+    model = Task
+    fields = "__all__"
+    template_name = 'account/task-create.html'
+    success_url = reverse_lazy('account:tasks')
 
 def register(request):
     form = RegisterForm()

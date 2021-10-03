@@ -161,7 +161,7 @@
     {% for task in object_list %}
 
         <a href="{% url 'account:task-detail' task.id %}">
-            {{ task.title }}
+            {{ task.title }} - <a href="{% url 'account:task-update' task.id %}">Edit</a>
         </a>
         <br>
     {% endfor %}
