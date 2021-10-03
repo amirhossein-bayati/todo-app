@@ -15,6 +15,8 @@ class TaskList(ListView):
 
 class TaskDetail(DetailView):
     model = Task
+    template_name = 'account/task-detail.html'
+    context_object_name = 'task'
 
 def register(request):
     form = RegisterForm()

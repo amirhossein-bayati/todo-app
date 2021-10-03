@@ -160,7 +160,10 @@
 
     {% for task in object_list %}
 
-        {{ task.title }}: {{ task.description }} <br>
+        <a href="{% url 'account:task-detail' task.id %}">
+            {{ task.title }}
+        </a>
+        <br>
     {% endfor %}
 
 {% endblock %}
