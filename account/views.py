@@ -2,4 +2,4 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def homePage(request):
-    return render(request, 'parent/base.html')
+    return render(request, 'account/home-page.html')
