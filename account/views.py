@@ -9,7 +9,7 @@ from .models import Task
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
 
 class TaskList(ListView):
     model = Task
@@ -34,6 +34,12 @@ class TaskUpdate(UpdateView):
     fields = "__all__"
     template_name = 'account/task-create.html'
     success_url = reverse_lazy('account:tasks')
+
+
+class TaskDelete(DeleteView):
+    model = Task
+    success_url = reverse_lazy('account:tasks')
+
 
 def register(request):
     form = RegisterForm()
