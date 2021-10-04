@@ -10,6 +10,7 @@ urlpatterns = [
     path('task-update/<int:pk>', TaskUpdate.as_view(), name="task-update"),
     path('task-delete/<int:pk>', TaskDelete.as_view(), name="task-delete"),
     path('register/', register, name='register'),
+    path('register-page/', registerPage.as_view(), name="register-page"),
     path('login/', loginPage, name="login"),
     path('logout/', logoutPage.as_view(), name='logout'),
 

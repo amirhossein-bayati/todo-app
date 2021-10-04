@@ -10,6 +10,7 @@ from .models import Task
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.views.generic import FormView
 
 from django.contrib.auth.views import LogoutView
 
@@ -89,6 +90,21 @@ def loginPage(request):
 
     return render(request, 'account/login.html')
 
-class logoutPage(LogoutView):
 
+class logoutPage(LogoutView):
     next_page = reverse_lazy('account:login')
+
+
+class registerPage(FormView):
+    template_name = 'account/register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy('account:login')
+
+    def form_valid(self, form):
+        user = form.save()
+        return super().form_valid(form)
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('account:tasks')
+        return super().get(*args, **kwargs)
