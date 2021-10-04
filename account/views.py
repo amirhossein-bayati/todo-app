@@ -11,6 +11,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 
+from django.contrib.auth.views import LogoutView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -41,6 +43,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
     fields = "__all__"
@@ -67,6 +70,7 @@ def register(request):
     }
     return render(request, 'account/register.html', context)
 
+
 def loginPage(request):
     if request.method == "POST":
         cd = request.POST
@@ -84,3 +88,7 @@ def loginPage(request):
             messages.error(request, "Username Or password is Incorrect")
 
     return render(request, 'account/login.html')
+
+class logoutPage(LogoutView):
+
+    next_page = reverse_lazy('account:login')
