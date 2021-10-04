@@ -11,32 +11,35 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 
-class TaskList(ListView):
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class TaskList(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'account/home-page.html'
 
 
-class TaskDetail(DetailView):
+class TaskDetail(LoginRequiredMixin, DetailView):
     model = Task
     template_name = 'account/task-detail.html'
     context_object_name = 'task'
 
 
-class TaskCreate(CreateView):
+class TaskCreate(LoginRequiredMixin, CreateView):
     model = Task
     fields = "__all__"
     template_name = 'account/task-create.html'
     success_url = reverse_lazy('account:tasks')
 
 
-class TaskUpdate(UpdateView):
+class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
     fields = "__all__"
     template_name = 'account/task-create.html'
     success_url = reverse_lazy('account:tasks')
 
 
-class TaskDelete(DeleteView):
+class TaskDelete(LoginRequiredMixin, DeleteView):
     model = Task
     success_url = reverse_lazy('account:tasks')
 
