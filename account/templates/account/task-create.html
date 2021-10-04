@@ -1,6 +1,24 @@
 {% extends 'parent/base.html' %}
 
 {% block content %}
+    <div class="row my-5">
+        <div class="col-md-12">
+            <div class="card card-white">
+                <div class="card-body">
+                    <form method="post" class="d-flex justify-content-center align-items-center mb-4">
+
+                        {% csrf_token %}
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

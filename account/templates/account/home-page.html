@@ -4,6 +4,7 @@
 {% block title %}Home{% endblock %}
 
 {% block head %}
+
     <style>
 
         .todo-nav {
@@ -107,13 +108,15 @@
 {% endblock %}
 
 {% block content %}
-    <!--
     <div class="row my-5">
         <div class="col-md-12">
             <div class="card card-white">
                 <div class="card-body">
-                    <form action="javascript:void(0);">
-                        <input type="text" class="form-control add-task" placeholder="New Task...">
+                    <form class="d-flex justify-content-center align-items-center mb-4">
+                        <div class="form-outline flex-fill">
+                            <input type="text" id="form1" class="form-control" placeholder="New task..."/>
+                        </div>
+                        <button type="submit" class="btn btn-info mx-2 ">Add</button>
                     </form>
                     <ul class="nav nav-pills todo-nav">
                         <li role="presentation" class="nav-item all-task active"><a href="#" class="nav-link">All</a>
@@ -124,44 +127,32 @@
                                                                                    class="nav-link">Completed</a></li>
                     </ul>
                     <div class="todo-list">
-                        <div class="todo-item">
-                            <div class="checker"><span class=""><input type="checkbox"></span></div>
-                            <span>Create theme</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i
-                                    class="icon-close"></i></a>
-                        </div>
-                        <div class="todo-item">
-                            <div class="checker"><span class=""><input type="checkbox"></span></div>
-                            <span>Work on wordpress</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i
-                                    class="icon-close"></i></a>
-                        </div>
-
-                        <div class="todo-item">
-                            <div class="checker"><span class=""><input type="checkbox"></span></div>
-                            <span>Organize office main department</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i
-                                    class="icon-close"></i></a>
-                        </div>
-                        <div class="todo-item">
-                            <div class="checker"><span><input type="checkbox"></span></div>
-                            <span>Error solve in HTML template</span>
-                            <a href="javascript:void(0);" class="float-right remove-todo-item"><i
-                                    class="icon-close"></i></a>
-                        </div>
+                        {% for task in tasks %}
+                            <div class="todo-item {% if task.complete %}complete{% endif %}">
+                                <div class="checker"><span class=""><input type="checkbox"
+                                                                           {% if task.complete %}checked{% endif %}></span>
+                                </div>
+                                <span>{{ task.title }}</span>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right">
+                                    <a href="{% url 'account:task-delete' task.id %}" aria-hidden="true" style="text-decoration: none">&times;</a>
+                                </button>
+                                <a href="{% url 'account:task-update' task.id %}" aria-label="Close" class="text-center mx-2" style="float: right; text-decoration: none">Edit</a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    -->
+
 
     <a href="{% url 'account:task-create' %}">Create</a><br><br>
     {% for task in tasks %}
 
         <a href="{% url 'account:task-detail' task.id %}">
-            {{ task.title }} - <a href="{% url 'account:task-update' task.id %}">Edit</a> - <a href="{% url 'account:task-delete' task.id %}">Delete</a>
+            {{ task.title }} - <a href="{% url 'account:task-update' task.id %}">Edit</a> - <a
+                href="{% url 'account:task-delete' task.id %}">Delete</a>
         </a>
         <br>
     {% endfor %}
