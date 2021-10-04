@@ -158,7 +158,7 @@
     -->
 
     <a href="{% url 'account:task-create' %}">Create</a><br><br>
-    {% for task in object_list %}
+    {% for task in tasks %}
 
         <a href="{% url 'account:task-detail' task.id %}">
             {{ task.title }} - <a href="{% url 'account:task-update' task.id %}">Edit</a> - <a href="{% url 'account:task-delete' task.id %}">Delete</a>

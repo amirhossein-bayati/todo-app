@@ -16,8 +16,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class TaskList(LoginRequiredMixin, ListView):
     model = Task
+    context_object_name = 'tasks'
     template_name = 'account/home-page.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = context['tasks'].filter(user=self.request.user)
+
+        return context
 
 class TaskDetail(LoginRequiredMixin, DetailView):
     model = Task
@@ -68,7 +74,7 @@ def loginPage(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect('account:home')
+                return redirect('account:tasks')
             else:
                 messages.error(request, "User is not active")
         else:
