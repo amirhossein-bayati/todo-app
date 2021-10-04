@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.conf import settings
+from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
 from .forms import *
 from .models import Task
 
@@ -12,7 +14,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic import FormView
 
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, LoginView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -72,7 +74,7 @@ def register(request):
     return render(request, 'account/register.html', context)
 
 
-def loginPage(request):
+def login_Page(request):
     if request.method == "POST":
         cd = request.POST
         username = cd['username']
@@ -108,3 +110,15 @@ class registerPage(FormView):
         if self.request.user.is_authenticated:
             return redirect('account:tasks')
         return super().get(*args, **kwargs)
+
+
+class loginPage(LoginView):
+    template_name = 'account/login.html'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('account:tasks')
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Username Or password is Incorrect')
+        return super().form_invalid(self)
