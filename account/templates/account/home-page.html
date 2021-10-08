@@ -110,7 +110,13 @@
 {% block content %}
     <div class="row my-5">
         <div class="col-md-12">
+            <div class="card-header" style="background-color: #00AA9E; color: white">
+                <h3 class="mb-0" style="float: left">Hello {{ request.user|title }}</h3><a href="{% url 'account:logout' %}" style="color: white"><small style="float: right">Logout</small></a>
+                <br><br>
+                <p class="mb-0">You have {{ tasksCount }} task{{ tasksCount|pluralize:"s" }} to do</p>
+            </div>
             <div class="card card-white">
+
                 <div class="card-body">
                     <form class="d-flex justify-content-center align-items-center mb-4">
                         <div class="form-outline flex-fill">
@@ -130,13 +136,17 @@
                         {% for task in tasks %}
                             <div class="todo-item {% if task.complete %}complete{% endif %}">
                                 <div class="checker"><span class=""><input type="checkbox"
-                                                                           {% if task.complete %}checked{% endif %}></span>
+                                                                           {% if task.complete %}checked{% endif %}
+                                                                           name="{{ task.title }}-{{ task.id }}" disabled></span>
                                 </div>
                                 <span>{{ task.title }}</span>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right">
-                                    <a href="{% url 'account:task-delete' task.id %}" aria-hidden="true" style="text-decoration: none">&times;</a>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                        style="float: right">
+                                    <a href="{% url 'account:task-delete' task.id %}" aria-hidden="true"
+                                       style="text-decoration: none">&times;</a>
                                 </button>
-                                <a href="{% url 'account:task-update' task.id %}" aria-label="Close" class="text-center mx-2" style="float: right; text-decoration: none">Edit</a>
+                                <a href="{% url 'account:task-update' task.id %}" aria-label="Close"
+                                   class="text-center mx-2" style="float: right; text-decoration: none">Edit</a>
                             </div>
                         {% endfor %}
                     </div>

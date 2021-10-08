@@ -28,6 +28,7 @@ class TaskList(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tasks'] = context['tasks'].filter(user=self.request.user)
+        context['tasksCount'] = context['tasks'].filter(complete=False).count()
 
         return context
 
@@ -51,7 +52,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = "__all__"
+    fields = ["title", "description", "complete"]
     template_name = 'account/task-create.html'
     success_url = reverse_lazy('account:tasks')
 
