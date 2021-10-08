@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from django.contrib.messages.views import SuccessMessageMixin
+
 from .forms import *
 from .models import Task
 
@@ -29,6 +31,10 @@ class TaskList(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['tasks'] = context['tasks'].filter(user=self.request.user)
         context['tasksCount'] = context['tasks'].filter(complete=False).count()
+
+        search = self.request.GET.get('search') or ''
+        if search:
+            context['tasks'] = context['tasks'].filter(title__contains=search)
 
         return context
 
@@ -100,7 +106,7 @@ class logoutPage(LogoutView):
     next_page = reverse_lazy('account:login')
 
 
-class registerPage(FormView):
+class registerPage(SuccessMessageMixin, FormView):
     template_name = 'account/register.html'
     form_class = RegisterForm
     success_url = reverse_lazy('account:login')
@@ -123,5 +129,5 @@ class loginPage(LoginView):
         return reverse_lazy('account:tasks')
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Username Or password is Incorrect')
+        messages.error(self.request, 'Username or password is Incorrect')
         return super().form_invalid(self)

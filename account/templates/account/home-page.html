@@ -111,19 +111,29 @@
     <div class="row my-5">
         <div class="col-md-12">
             <div class="card-header" style="background-color: #00AA9E; color: white">
-                <h3 class="mb-0" style="float: left">Hello {{ request.user|title }}</h3><a href="{% url 'account:logout' %}" style="color: white"><small style="float: right">Logout</small></a>
+                <h3 class="mb-0" style="float: left">Hello {{ request.user|title }}</h3><a
+                    href="{% url 'account:logout' %}" style="color: white"><small
+                    style="float: right">Logout</small></a>
                 <br><br>
                 <p class="mb-0">You have {{ tasksCount }} task{{ tasksCount|pluralize:"s" }} to do</p>
             </div>
             <div class="card card-white">
 
                 <div class="card-body">
-                    <form class="d-flex justify-content-center align-items-center mb-4">
-                        <div class="form-outline flex-fill">
-                            <input type="text" id="form1" class="form-control" placeholder="New task..."/>
-                        </div>
-                        <button type="submit" class="btn btn-info mx-2 ">Add</button>
-                    </form>
+                    <div id="search-add-wrapper">
+                        <form method="GET" class="d-flex float-left col-md-11">
+                            <div class="form-outline flex-fill">
+                                <input type="text" name="search" id="form1" class="form-control"
+                                       placeholder="Search..."/>
+                            </div>
+                            <button type="submit" class="btn btn-info mx-2 ">Search</button>
+
+                        </form>
+
+                        <a id="add-link" href="{% url 'account:task-create' %}" class="d-flex h1 float-right" style="text-decoration: none; margin-right: 30px; margin-top: -45px; color: #00AA9E;">&#x2b;</a>
+                    </div>
+
+<br>
                     <ul class="nav nav-pills todo-nav">
                         <li role="presentation" class="nav-item all-task active"><a href="#" class="nav-link">All</a>
                         </li>
@@ -137,7 +147,8 @@
                             <div class="todo-item {% if task.complete %}complete{% endif %}">
                                 <div class="checker"><span class=""><input type="checkbox"
                                                                            {% if task.complete %}checked{% endif %}
-                                                                           name="{{ task.title }}-{{ task.id }}" disabled></span>
+                                                                           name="{{ task.title }}-{{ task.id }}"
+                                                                           disabled></span>
                                 </div>
                                 <span>{{ task.title }}</span>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"
@@ -148,25 +159,13 @@
                                 <a href="{% url 'account:task-update' task.id %}" aria-label="Close"
                                    class="text-center mx-2" style="float: right; text-decoration: none">Edit</a>
                             </div>
+                        {% empty %}
+                            <h4>No tasks..</h4>
                         {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-    <a href="{% url 'account:task-create' %}">Create</a><br><br>
-    {% for task in tasks %}
-
-        <a href="{% url 'account:task-detail' task.id %}">
-            {{ task.title }} - <a href="{% url 'account:task-update' task.id %}">Edit</a> - <a
-                href="{% url 'account:task-delete' task.id %}">Delete</a>
-        </a>
-        <br>
-    {% endfor %}
-    <br>
-    <a href="{% url 'account:logout' %}">Logout</a>
 
 {% endblock %}
