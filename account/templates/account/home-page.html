@@ -124,13 +124,13 @@
                         <form method="GET" class="d-flex float-left col-md-11">
                             <div class="form-outline flex-fill">
                                 <input type="text" name="search" id="form1" class="form-control"
-                                       placeholder="Search..."/>
+                                       placeholder="Search..." value="{{ request.GET.search }}" />
                             </div>
                             <button type="submit" class="btn btn-info mx-2 ">Search</button>
 
                         </form>
 
-                        <a id="add-link" href="{% url 'account:task-create' %}" class="d-flex h1 float-right" style="text-decoration: none; margin-right: 30px; margin-top: -45px; color: #00AA9E;">&#x2b;</a>
+                        <a id="add-link" href="{% url 'account:task-create' %}" class="d-flex h1 float-right" style="text-decoration: none; margin-right: 30px; margin-top: -48px; color: #00AA9E;">&#x2b;</a>
                     </div>
 
 <br>
